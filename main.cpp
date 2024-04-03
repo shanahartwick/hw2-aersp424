@@ -5,7 +5,11 @@
 #include "PressureSensor.h"
 #include "AirspeedSensor.h"
 #include "RobotTaskSimulator.h"
+#include "AirTrafficController.h"
+#include "Aircraft.h"
 #include <iostream>
+#include <vector>
+#include <thread>
 
 int main()
 {
@@ -23,6 +27,18 @@ int main()
     // Create instance of RobotTaskSimulator and run simulation
     RobotTaskSimulator simulator;
     simulator.runSimulation();
+
+    AirTrafficController atc;
+    std::vector<std::thread> aircraftThreads;
+
+    for (int i = 1; i <= 10; ++i) {
+        Aircraft aircraft(i, atc);
+        aircraftThreads.emplace_back(&Aircraft::approach, &aircraft);
+    }
+
+    for (auto& thread : aircraftThreads) {
+        thread.join();
+    }
 
     return 0;
 }
