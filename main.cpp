@@ -4,6 +4,7 @@
 #include "Altimeter.h"
 #include "PressureSensor.h"
 #include "AirspeedSensor.h"
+#include "RobotTaskSimulator.h"
 #include <iostream>
 
 int main()
@@ -18,6 +19,10 @@ int main()
 
     // Monitor and adjust controls
     ctrlSys.monitorAndAdjust();
+
+    // Create instance of RobotTaskSimulator and run simulation
+    RobotTaskSimulator simulator;
+    simulator.runSimulation();
 
     return 0;
 }
