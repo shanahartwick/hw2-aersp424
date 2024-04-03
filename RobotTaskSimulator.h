@@ -17,6 +17,10 @@ public:
 
     // Function to run the simulation
     void runSimulation();
+
+private:
+    // Mutex for synchronizing access to output stream
+    std::mutex coutMutex;
 };
 
 #endif // ROBOT_TASK_SIMULATOR_H

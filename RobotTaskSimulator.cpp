@@ -13,20 +13,35 @@ void RobotTaskSimulator::robotTask(int robotID) {
     int secondTool = (robotID + 1) % numTools;
 
     // Collecting data
-    std::cout << "Robot " << robotID << " is collecting data." << std::endl;
+    {
+        std::lock_guard<std::mutex> lock(coutMutex);
+        std::cout << "Robot " << robotID << " is collecting data." << std::endl;
+    }
 
     // Reach and grab both tools
     toolMutex[firstTool].lock();
-    std::cout << "Robot " << robotID << " acquired tool " << firstTool << "." << std::endl;
+    {
+        std::lock_guard<std::mutex> lock(coutMutex);
+        std::cout << "Robot " << robotID << " acquired tool " << firstTool << "." << std::endl;
+    }
     std::this_thread::sleep_for(std::chrono::seconds(1));
     toolMutex[secondTool].lock();
-    std::cout << "Robot " << robotID << " acquired tool " << secondTool << "." << std::endl;
+    {
+        std::lock_guard<std::mutex> lock(coutMutex);
+        std::cout << "Robot " << robotID << " acquired tool " << secondTool << "." << std::endl;
+    }
     std::this_thread::sleep_for(std::chrono::seconds(5));
 
     // Perform the task
-    std::cout << "Robot " << robotID << " begins the task." << std::endl;
+    {
+        std::lock_guard<std::mutex> lock(coutMutex);
+        std::cout << "Robot " << robotID << " begins the task." << std::endl;
+    }
     std::this_thread::sleep_for(std::chrono::seconds(5));
-    std::cout << "Robot " << robotID << " completes the task." << std::endl;
+    {
+        std::lock_guard<std::mutex> lock(coutMutex);
+        std::cout << "Robot " << robotID << " completes the task." << std::endl;
+    }
 
     // Return tools to their original location
     toolMutex[secondTool].unlock();
@@ -50,5 +65,8 @@ void RobotTaskSimulator::runSimulation() {
 
     auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> totalTime = end - start;
-    std::cout << "Total time taken by all robots to finish their tasks: " << totalTime.count() << " seconds" << std::endl;
+    {
+        std::lock_guard<std::mutex> lock(coutMutex);
+        std::cout << "Total time taken by all robots to finish their tasks: " << totalTime.count() << " seconds" << std::endl;
+    }
 }
