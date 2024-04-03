@@ -1,12 +1,5 @@
 #include "RobotTaskSimulator.h"
 
-// Define the number of robots and tools
-const int numRobots = 5;
-const int numTools = 5;
-
-// Mutex for synchronizing access to tools
-std::mutex toolMutex[numTools];
-
 // Function to represent the behavior of each robot
 void RobotTaskSimulator::robotTask(int robotID) {
     int firstTool = robotID;
