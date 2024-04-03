@@ -1,4 +1,5 @@
 #pragma once
+
 #ifndef SENSOR_H
 #define SENSOR_H
 

@@ -1,6 +1,8 @@
 #pragma once
+
 #ifndef SENSOR_FACTORY_H
 #define SENSOR_FACTORY_H
+
 #include "Sensor.h"
 #include <memory>
 #include <string>

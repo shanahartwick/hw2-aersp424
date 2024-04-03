@@ -1,6 +1,8 @@
 #pragma once
+
 #ifndef AIRSPEED_SENSOR_H
 #define AIRSPEED_SENSOR_H
+
 #include "Sensor.h"
 
 class AirspeedSensor :

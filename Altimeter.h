@@ -1,6 +1,8 @@
 #pragma once
+
 #ifndef ALTIMETER_H
 #define ALTIMETER_H
+
 #include "Sensor.h"
 
 class Altimeter :
