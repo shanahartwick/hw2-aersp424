@@ -22,6 +22,7 @@ private:
 
     // Mutexes for synchronizing access to tools
     std::mutex toolMutex[numTools];
+    std::mutex coutMutex;
 
     // Function to represent the behavior of each robot
     void robotTask(int robotID);
