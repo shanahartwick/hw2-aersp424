@@ -11,24 +11,20 @@ void RobotTaskSimulator::robotTask(int robotID) {
         std::cout << "Robot " << robotID << " is collecting data." << std::endl;
     }
 
-    // Reach and grab both tools
+    // Reach and grab both tools and begins tasks
     toolMutex[firstTool].lock();
     toolMutex[secondTool].lock();
     {
         std::lock_guard<std::mutex> lock(coutMutex);
-        std::cout << "Robot " << robotID << " acquired both tools." << std::endl;
+        std::cout << "Robot " << robotID << " acquired tools and starts performing a task." << std::endl;
     }
-    std::this_thread::sleep_for(std::chrono::seconds(6));
+    std::this_thread::sleep_for(std::chrono::seconds(5));
 
-    // Perform the task
-    {
-        std::lock_guard<std::mutex> lock(coutMutex);
-        std::cout << "Robot " << robotID << " begins the task." << std::endl;
-    }
+    // Ends task and returns tools
     std::this_thread::sleep_for(std::chrono::seconds(5));
     {
         std::lock_guard<std::mutex> lock(coutMutex);
-        std::cout << "Robot " << robotID << " completes the task." << std::endl;
+        std::cout << "Robot " << robotID << " finished the task and returning the tools." << std::endl;
     }
 
     // Return tools to their original location
@@ -55,6 +51,6 @@ void RobotTaskSimulator::runSimulation() {
     std::chrono::duration<double> totalTime = end - start;
     {
         std::lock_guard<std::mutex> lock(coutMutex);
-        std::cout << "Total time taken by all robots to finish their tasks: " << totalTime.count() << " seconds" << std::endl;
+        std::cout << "Duration: " << totalTime.count() << " seconds" << std::endl;
     }
 }
