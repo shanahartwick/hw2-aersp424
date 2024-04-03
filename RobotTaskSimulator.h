@@ -18,7 +18,6 @@ public:
     // Function to run the simulation
     void runSimulation();
 
-private:
     // Mutex for synchronizing access to output stream
     std::mutex coutMutex;
 };
