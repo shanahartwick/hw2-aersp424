@@ -13,17 +13,12 @@ void RobotTaskSimulator::robotTask(int robotID) {
 
     // Reach and grab both tools
     toolMutex[firstTool].lock();
-    {
-        std::lock_guard<std::mutex> lock(coutMutex);
-        std::cout << "Robot " << robotID << " acquired tool " << firstTool << "." << std::endl;
-    }
-    std::this_thread::sleep_for(std::chrono::seconds(1));
     toolMutex[secondTool].lock();
     {
         std::lock_guard<std::mutex> lock(coutMutex);
-        std::cout << "Robot " << robotID << " acquired tool " << secondTool << "." << std::endl;
+        std::cout << "Robot " << robotID << " acquired both tools." << std::endl;
     }
-    std::this_thread::sleep_for(std::chrono::seconds(5));
+    std::this_thread::sleep_for(std::chrono::seconds(6));
 
     // Perform the task
     {
