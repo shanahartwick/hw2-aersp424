@@ -32,8 +32,10 @@ int main()
     std::vector<std::thread> aircraftThreads;
 
     for (int i = 1; i <= 10; ++i) {
-        Aircraft aircraft(i, atc);
-        aircraftThreads.emplace_back(&Aircraft::approach, &aircraft);
+        aircraftThreads.emplace_back([&atc, i]() {
+            Aircraft aircraft(i, atc);
+            aircraft.approach();
+            });
     }
 
     for (auto& thread : aircraftThreads) {
