@@ -10,12 +10,12 @@ void AirTrafficController::handleLandingRequest(int planeID) {
         isAwake = true;
     }
     if (trafficPattern.size() < maxTrafficPattern) {
-        std::cout << "Plane " << planeID << " is requesting to land.\n";
+        std::cout << "Plane " << planeID << " enters the traffic pattern.\n";
         trafficPattern.push_back(planeID);
         lck.unlock();
         std::this_thread::sleep_for(std::chrono::seconds(1)); // Landing process
         lck.lock();
-        std::cout << "Plane " << planeID << " lands and runway is available.\n";
+        std::cout << "Plane " << planeID << " lands.\n";
         trafficPattern.pop_back();
     }
     else {
@@ -25,4 +25,32 @@ void AirTrafficController::handleLandingRequest(int planeID) {
         std::cout << "ATC falls asleep.\n";
         isAwake = false;
     }
+}
+
+std::mutex& AirTrafficController::getMutex() {
+    return mtx;
+}
+
+bool AirTrafficController::isAsleep() {
+    return !isAwake;
+}
+
+void AirTrafficController::wakeUp() {
+    isAwake = true;
+}
+
+bool AirTrafficController::isTrafficFull() {
+    return trafficPattern.size() >= maxTrafficPattern;
+}
+
+void AirTrafficController::incrementTraffic() {
+    ++trafficCount;
+}
+
+void AirTrafficController::decrementTraffic() {
+    --trafficCount;
+}
+
+void AirTrafficController::sleep() {
+    isAwake = false;
 }
