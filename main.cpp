@@ -6,10 +6,14 @@
 #include "AirspeedSensor.h"
 #include "RobotTaskSimulator.h"
 #include "AirTrafficController.h"
-#include "Aircraft.h"
 #include <iostream>
 #include <vector>
 #include <thread>
+
+void airplaneFunc(AirTrafficController& atc, int planeID) {
+    std::this_thread::sleep_for(std::chrono::seconds(planeID)); // Simulate airplanes arriving at different times
+    atc.handleLandingRequest(planeID);
+}
 
 int main()
 {
@@ -29,17 +33,14 @@ int main()
     simulator.runSimulation();
 
     AirTrafficController atc;
-    std::vector<std::thread> aircraftThreads;
+    std::vector<std::thread> threads;
 
-    for (int i = 1; i <= 10; ++i) {
-        aircraftThreads.emplace_back([&atc, i]() {
-            Aircraft aircraft(i, atc);
-            aircraft.approach();
-            });
+    for (int i = 0; i < 10; ++i) {
+        threads.push_back(std::thread(airplaneFunc, std::ref(atc), i));
     }
 
-    for (auto& thread : aircraftThreads) {
-        thread.join();
+    for (auto& t : threads) {
+        t.join();
     }
 
     return 0;
