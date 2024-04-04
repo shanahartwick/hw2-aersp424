@@ -6,6 +6,8 @@
 #include "AirspeedSensor.h"
 #include "RobotTaskSimulator.h"
 #include "AirTrafficController.h"
+#include "bernoullis.h"
+#include <GL/glut.h>
 #include <iostream>
 #include <vector>
 #include <thread>
@@ -15,7 +17,7 @@ void airplaneFunc(AirTrafficController& atc, int planeID) {
     atc.handleLandingRequest(planeID);
 }
 
-int main()
+int main(int argc, char** argv)
 {
     // Instantiate AerospaceControlSystem object
     AerospaceControlSystem ctrlSys;
@@ -42,6 +44,18 @@ int main()
     for (auto& t : threads) {
         t.join();
     }
+
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(800, 600);
+    glutCreateWindow("Bernoulli's Equation Graph");
+
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+
+    glutDisplayFunc(drawBernoullisGraph);
+    glutReshapeFunc(bernoullisReshape);
+
+    glutMainLoop();
 
     return 0;
 }
